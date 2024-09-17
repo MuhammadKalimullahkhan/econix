@@ -81,7 +81,7 @@ const Sidebar = () => {
   const logoutHandler = () => {
     signOut();
     dispatch(logout());
-    toggleSidebar("");
+    dispatch(toggleSidebar(""));
   };
 
   return (
