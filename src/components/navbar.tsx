@@ -1,16 +1,11 @@
+import { toggleSidebar } from "@/redux/sidebarSlice";
 import { ChevronLeft, Menu } from "react-feather";
-import { Button } from "./ui/button";
+import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import ProfileDropdown from "./profile-dropdown";
-import { useDispatch, useSelector } from "react-redux";
-import { toggleSidebar } from "@/redux/sidebarSlice";
-import { RootState } from "@/redux/store";
+import { Button } from "./ui/button";
 
 const Nabvar = () => {
-  const isExpended: boolean = useSelector(
-    (state: RootState) => state.sidebar.isExpended
-  );
-
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -24,7 +19,6 @@ const Nabvar = () => {
             variant={"ghost"}
             onClick={() => {
               dispatch(toggleSidebar(""));
-              console.log(isExpended);
             }}
           >
             <Menu size={18} />
