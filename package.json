@@ -9,7 +9,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "build:android": "cp -r \"src\" \"../econix - Copy\"/ && cd \"../econix - Copy\"/ && npm run build && npx cap sync && npx cap open android"
+    "build:android": "cp -r \"src\" \"../econix_build\"/ && cd \"../econix_build\"/ && npm run build && npx cap sync && npx cap open android"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",

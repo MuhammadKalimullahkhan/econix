@@ -127,7 +127,7 @@ const Layout = () => {
     >
       <Sidebar />
       <section
-        className="w-full lg:mx-auto lg:p-0 h-[calc(100vh-55px)] bg-background flex flex-col transition-transform duration-200"
+        className="w-full lg:mx-auto lg:p-0 h-screen bg-background flex flex-col transition-transform duration-200"
         style={{
           transform: isExpended ? "scale(.9) translateX(70vw)" : "unset",
         }}
