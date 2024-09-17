@@ -8,7 +8,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordin";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { RootState } from "@/redux/store";
 import { Models } from "appwrite";
 import { useState } from "react";
@@ -17,12 +17,18 @@ import ReviewCards from "./review-cards";
 import { useCreateReview } from "@/lib/react-query/queries";
 import Loading from "@/components/loading";
 import { toast } from "@/hooks/use-toast";
+import { Link } from "react-router-dom";
+import WhatsApp from "@/components/icons/whatsapp";
 
 const ProductOverview = ({
   productDetails,
 }: {
   productDetails: Models.Document | undefined;
 }) => {
+  const WHATS_APP_CONTACT = `${import.meta.env.VITE_WHATS_APP_API}?phone=${
+    import.meta.env.VITE_WHATS_APP_CONTACT
+  }&text=${import.meta.env.VITE_WHATS_APP_MESSAGE}`;
+
   const userData = useSelector((state: RootState) => state.auth.user);
 
   const [showReviewSection, setShowReviewSection] = useState(false);
@@ -106,13 +112,25 @@ const ProductOverview = ({
           </Button>
         </div>
       ) : (
-        <Button
-          className="mt-10"
-          variant={"outline"}
-          onClick={() => setShowReviewSection((prev) => !prev)}
-        >
-          Add Review
-        </Button>
+        <div className="flex gap-3 mt-4 ">
+          <Button
+            variant={"outline"}
+            className="w-full"
+            onClick={() => setShowReviewSection((prev) => !prev)}
+          >
+            Add Review
+          </Button>
+          <Link
+            to={WHATS_APP_CONTACT}
+            className={buttonVariants({
+              variant: "default",
+              className: "w-full",
+            })}
+          >
+            <WhatsApp />
+            WhatsApp chat
+          </Link>
+        </div>
       )}
 
       <div className="mt-8 bg-accent px-3 rounded-xl">

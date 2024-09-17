@@ -1,10 +1,9 @@
-import { RootState } from "@/redux/store";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useSelector } from "react-redux";
 import Loading from "@/components/loading";
-import { IconInput, Input } from "@/components/ui/input";
-import { Mail } from "react-feather";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { RootState } from "@/redux/store";
+import { useSelector } from "react-redux";
 
 const ProfilePage = () => {
   const userData: any = useSelector((state: RootState) => state.auth.user);

@@ -1,4 +1,5 @@
 import Products from "@/components/products";
+import { Button } from "@/components/ui/button";
 import { IconInput } from "@/components/ui/input";
 import { useGetProducts } from "@/lib/react-query/queries";
 import { RootState } from "@/redux/store";
@@ -9,7 +10,12 @@ import { useNavigate } from "react-router-dom";
 const HomePage = () => {
   const navigator = useNavigate();
   const userData: any = useSelector((state: RootState) => state.auth.user);
-  const { data: products, isLoading } = useGetProducts();
+  const {
+    data: products,
+    isLoading,
+    fetchNextPage,
+    hasNextPage,
+  } = useGetProducts();
 
   return (
     <section>
@@ -30,6 +36,14 @@ const HomePage = () => {
           />
         </div>
         <Products productList={products} isLoading={isLoading} />
+
+        {hasNextPage && (
+          <div className="mt-8 w-full text-center">
+            <Button variant={"outline"} onClick={() => fetchNextPage()}>
+              More
+            </Button>
+          </div>
+        )}
       </div>
 
       {/* <div className="mb-4 px-6 flex gap-2 overflow-x-auto">

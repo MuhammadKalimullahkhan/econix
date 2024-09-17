@@ -1,23 +1,15 @@
-import WhatsApp from "@/components/icons/whatsapp";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { useGetProductById } from "@/lib/react-query/queries";
+
+import Loading from "@/components/loading";
 import ProductOverview from "./product-overview";
 import ProductSpecification from "./product-specification";
-
-import { buttonVariants } from "@/components/ui/button";
-import { useGetProductById } from "@/lib/react-query/queries";
-import Loading from "@/components/loading";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const ProductDetailsPage = () => {
   const { productId } = useParams();
 
   const { data: product, isLoading } = useGetProductById(productId);
-
-  const WHATS_APP_CONTACT = `${import.meta.env.VITE_WHATS_APP_API}?phone=${
-    import.meta.env.VITE_WHATS_APP_CONTACT
-  }&text=${import.meta.env.VITE_WHATS_APP_MESSAGE}
-  ${window.location.href}
-  `;
 
   return (
     <section className="container">
@@ -49,17 +41,6 @@ const ProductDetailsPage = () => {
               </TabsContent>
             </Tabs>
           </div>
-
-          <Link
-            to={WHATS_APP_CONTACT}
-            className={buttonVariants({
-              variant: "default",
-              className: "mt-3 sticky bottom-3 w-full z-50",
-            })}
-          >
-            <WhatsApp />
-            WhatsApp chat
-          </Link>
         </>
       )}
     </section>

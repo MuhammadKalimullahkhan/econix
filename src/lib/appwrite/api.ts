@@ -190,14 +190,14 @@ export async function getInfiniteProducts({
   }
 
   try {
-    const posts = await databases.listDocuments(
+    const products = await databases.listDocuments(
       appwriteConfig.databaseId,
       appwriteConfig.collections.products,
       queries
     );
 
-    if (!posts) throw Error;
-    return posts;
+    if (!products) throw Error;
+    return products;
   } catch (error) {
     console.log(error);
   }

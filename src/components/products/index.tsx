@@ -13,8 +13,6 @@ const Products = ({
   >;
   isLoading: boolean;
 }) => {
-  console.log(productList);
-
   return (
     <>
       <div className="w-full gap-2 grid grid-cols-2">

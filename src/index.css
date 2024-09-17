@@ -89,7 +89,7 @@
   }
 
   body {
-    @apply pb-4 text-foreground;
+    @apply text-foreground;
   }
 }
 

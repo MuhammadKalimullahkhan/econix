@@ -21,10 +21,11 @@ import { useEffect, useState } from "react";
 import Loading from "@/components/loading";
 import { login, logout } from "@/redux/authSlice";
 import { RootState, store } from "@/redux/store";
-import Sidebar from "./components/sidebar";
-import { Toaster } from "./components/ui/toaster";
-import { getCurrentUser } from "./lib/appwrite/api";
-import ProfilePage from "./pages/profile";
+import Sidebar from "@/components/sidebar";
+import { Toaster } from "@/components/ui/toaster";
+import { getCurrentUser } from "@/lib/appwrite/api";
+import ProfilePage from "@/pages/profile";
+import BottomNavBar from "@/components/bottom-nav-bar";
 
 //
 export default () => {
@@ -134,6 +135,7 @@ const Layout = () => {
         <Toaster />
         <Nabvar />
         {!loading ? <Outlet /> : <Loading />}
+        <BottomNavBar />
       </section>
     </main>
   );
