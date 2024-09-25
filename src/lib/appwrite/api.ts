@@ -25,7 +25,7 @@ export async function createUserAccount(user: INewUser) {
       id: newAccount.$id,
       name: newAccount.name,
       email: newAccount.email,
-      imageUrl: avatarUrl,
+      imageUrl: avatarUrl.href,
       role: USER_ROLES.CUSTOMER,
     });
 
@@ -41,7 +41,7 @@ export async function saveUserToDB(user: {
   id: string;
   name: string;
   email: string;
-  imageUrl: URL;
+  imageUrl: string;
   role?: USER_ROLES;
 }) {
   try {
