@@ -18,7 +18,10 @@ const ProductDetailsPage = () => {
       ) : (
         <>
           <div>
-            <p className="text-primary font-bold">USD {product?.price}</p>
+            <span className="text-primary font-bold">USD {product?.price}</span>
+            <span className="p-2 bg-muted float-end rounded-lg">
+              Stock <strong>{product?.stock}</strong>
+            </span>
             <h2 className="text-2xl font-bold">{product?.name}</h2>
             <div className="text-zinc-400">
               {product?.categories.map((category: any, i: any) => (

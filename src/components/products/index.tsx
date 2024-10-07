@@ -15,7 +15,7 @@ const Products = ({
 }) => {
   return (
     <>
-      <div className="w-full gap-2 grid grid-cols-2">
+      <div className="w-full gap-4 grid grid-cols-1">
         {isLoading ? (
           <CardsSkeleton />
         ) : (
@@ -27,14 +27,17 @@ const Products = ({
                 imagePath={product.images[0]}
                 name={product.name}
                 slug={product.$id}
-                price={product.price}
+                price={product.price.toFixed(2)}
+                stock={product.stock}
                 reviews={product.reviews.length}
-                rating={
-                  product.reviews.reduce(
-                    (acc: any, review: any) => acc + review.rating,
-                    0
-                  ) / product.reviews.length
-                }
+                rating={parseFloat(
+                  (
+                    product.reviews.reduce(
+                      (acc: any, review: any) => acc + review.rating,
+                      0
+                    ) / product.reviews.length
+                  ).toFixed(2)
+                )}
               />
             ))
           )
