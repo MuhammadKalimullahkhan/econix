@@ -1,7 +1,7 @@
 import { ID, Query } from "appwrite";
 
 import { INewUser, Reviews, USER_ROLES } from "@/types";
-import { account, appwriteConfig, avatars, databases } from "./config";
+import { account, appwriteConfig, avatars, databases, storage } from "./config";
 
 // ============================================================
 // AUTH
@@ -129,6 +129,20 @@ export async function getCategories() {
     );
     if (!categories) throw Error;
     return categories;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function getPaymentMethods() {
+  try {
+    const paymentMethods = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.collections.payment_methods,
+      [Query.orderAsc("name")]
+    );
+    if (!paymentMethods) throw Error;
+    return paymentMethods;
   } catch (error) {
     console.log(error);
   }
@@ -270,48 +284,40 @@ export async function getProductById(productId?: string) {
 // }
 
 // ============================== UPLOAD FILE
-// export async function uploadFile(file: File) {
-//   try {
-//     const uploadedFile = await storage.createFile(
-//       appwriteConfig.storageId,
-//       ID.unique(),
-//       file
-//     );
-
-//     return uploadedFile;
-//   } catch (error) {
-//     console.log(error);
-//   }
-// }
+export async function uploadFile(file: File) {
+  let uploadedFile;
+  try {
+    uploadedFile = await storage.createFile(
+      appwriteConfig.storageId,
+      ID.unique(),
+      file
+    );
+  } catch (error) {
+    console.log(error);
+  }
+  return uploadedFile;
+}
 
 // ============================== GET FILE URL
-// export function getFilePreview(fileId: string) {
-//   try {
-//     const fileUrl = storage.getFilePreview(
-//       appwriteConfig.storageId,
-//       fileId,
-//       2000,
-//       2000,
-//       "top",
-//       100
-//     );
-//     if (!fileUrl) throw Error;
-//     return fileUrl;
-//   } catch (error) {
-//     console.log(error);
-//   }
-// }
+export function getFilePreview(fileId: string) {
+  try {
+    const fileUrl = storage.getFilePreview(appwriteConfig.storageId, fileId);
+    if (!fileUrl) throw Error;
+    return fileUrl;
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 // ============================== DELETE FILE
-// export async function deleteFile(fileId: string) {
-//   try {
-//     await storage.deleteFile(appwriteConfig.storageId, fileId);
-
-//     return { status: "ok" };
-//   } catch (error) {
-//     console.log(error);
-//   }
-// }
+export async function deleteFile(fileId: string) {
+  try {
+    await storage.deleteFile(appwriteConfig.storageId, fileId);
+    return { status: "ok" };
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 // ============================== GET POSTS
 export async function searchProduct(searchTerm: string) {
@@ -327,6 +333,31 @@ export async function searchProduct(searchTerm: string) {
     return posts;
   } catch (error) {
     console.log(error);
+  }
+}
+
+// PURCHASE
+export async function createPurchase(purchaseObj: any) {
+  try {
+    const uploadedFile = await uploadFile(purchaseObj.recieptImage);
+    if (!uploadedFile) throw Error;
+
+    const imgPreviewUrl = getFilePreview(uploadedFile.$id);
+
+    const newPurchase = await databases.createDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.collections.purchases,
+      ID.unique(),
+      { ...purchaseObj, recieptImage: imgPreviewUrl }
+    );
+
+    if (!newPurchase) {
+      throw Error;
+    }
+
+    return newPurchase;
+  } catch (error: any) {
+    console.error(error);
   }
 }
 

@@ -76,62 +76,37 @@ const ProductOverview = ({
         {productDetails &&
           productDetails.images.map((image: string) => (
             <SwiperSlide key={image}>
-              <img src={image} alt="" className="object-fill" />
+              <img
+                src={JSON.parse(image).href}
+                alt=""
+                className="object-fill"
+              />
               {/* <div className="rounded-xl h-[200px] bg-accent flex justify-center">
               </div> */}
             </SwiperSlide>
           ))}
       </Swiper>
-      {showReviewSection ? (
-        <div className="mt-10 space-y-4">
-          <div>
-            <label htmlFor="review">Review text</label>
-            <textarea
-              name="review"
-              id="review"
-              placeholder="the product is very cool..."
-              className="p-3 border w-full rounded-lg"
-              onChange={(e) => setReviewText(e.target.value)}
-              rows={20}
-            ></textarea>
+      {
+        <div className="flex flex-col gap-3 mt-4 ">
+          <div className="flex gap-3">
+            <Link
+              to={WHATS_APP_CONTACT}
+              className={buttonVariants({
+                variant: "default",
+                className: "w-full",
+              })}
+            >
+              <WhatsApp />
+            </Link>
+            <Link
+              to={"/order/" + productDetails?.$id}
+              className={buttonVariants({ variant: "secondary" })}
+            >
+              Order
+            </Link>
           </div>
-          <div>
-            <StarRating rating={rating} onRatingChange={setRating} />
-            {/* <Label>Stars</Label>
-            <Input type="number" placeholder="5" minLength={1} maxLength={5} /> */}
-          </div>
-          <Button onClick={handleSubmitReview} disabled={isLoadingCreateReview}>
-            {isLoadingCreateReview ? <Loading /> : "Add Review"}
-          </Button>
-          <Button
-            className="ml-2"
-            variant={"outline"}
-            onClick={() => setShowReviewSection((prev) => !prev)}
-          >
-            Cancel
-          </Button>
         </div>
-      ) : (
-        <div className="flex gap-3 mt-4 ">
-          <Button
-            variant={"outline"}
-            className="w-full"
-            onClick={() => setShowReviewSection((prev) => !prev)}
-          >
-            Add Review
-          </Button>
-          <Link
-            to={WHATS_APP_CONTACT}
-            className={buttonVariants({
-              variant: "default",
-              className: "w-full",
-            })}
-          >
-            <WhatsApp />
-            WhatsApp chat
-          </Link>
-        </div>
-      )}
+      }
 
       <div className="mt-8 bg-accent px-3 rounded-xl">
         <Accordion type="single" collapsible>
@@ -140,6 +115,47 @@ const ProductOverview = ({
               Reviews {`(${productDetails?.reviews.length})`}
             </AccordionTrigger>
             <AccordionContent>
+              {showReviewSection ? (
+                <div className="space-y-4">
+                  <div>
+                    <label htmlFor="review">Review text</label>
+                    <textarea
+                      name="review"
+                      id="review"
+                      placeholder="the product is very cool..."
+                      className="p-3 border w-full rounded-lg"
+                      onChange={(e) => setReviewText(e.target.value)}
+                      rows={5}
+                    ></textarea>
+                  </div>
+                  <div>
+                    <StarRating rating={rating} onRatingChange={setRating} />
+                    {/* <Label>Stars</Label>
+            <Input type="number" placeholder="5" minLength={1} maxLength={5} /> */}
+                  </div>
+                  <Button
+                    onClick={handleSubmitReview}
+                    disabled={isLoadingCreateReview}
+                  >
+                    {isLoadingCreateReview ? <Loading /> : "Add Review"}
+                  </Button>
+                  <Button
+                    className="ml-2"
+                    variant={"outline"}
+                    onClick={() => setShowReviewSection((prev) => !prev)}
+                  >
+                    Cancel
+                  </Button>
+                </div>
+              ) : (
+                <Button
+                  variant={"outline"}
+                  className="w-full"
+                  onClick={() => setShowReviewSection((prev) => !prev)}
+                >
+                  Add Review
+                </Button>
+              )}
               <ReviewCards productId={productDetails && productDetails.$id} />
             </AccordionContent>
           </AccordionItem>

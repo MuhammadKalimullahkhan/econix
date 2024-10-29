@@ -84,9 +84,7 @@
     scrollbar-width: none;
   }
 
-  html {
-    @apply text-xs;
-  }
+  /* html {} */
 
   body {
     @apply text-foreground;

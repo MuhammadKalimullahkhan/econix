@@ -1,4 +1,4 @@
-# Econix Application using React + TypeScript + Vite
+# Handicraft Store Application using React + TypeScript + Vite
 
 This is minimalistic Ecomerce application where admin can sell their products through this application.
 

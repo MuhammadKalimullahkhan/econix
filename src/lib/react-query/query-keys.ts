@@ -18,6 +18,9 @@ export enum QUERY_KEYS {
   // CATEGORY KEYS
   GET_CATEGORIES = "getCategories",
 
+  // PAYMENT METHODS KEYS
+  GET_PAYMENT_METHODS = "getPaymentMethods",
+
   // REVIEWS KEYS
   GET_REVIEWS_BY_PRODUCT_ID = "getReviewsByProductId",
 

@@ -10,6 +10,11 @@ export const appwriteConfig = {
     users: String(import.meta.env.VITE_APPWRITE_USERS_COLLECTION_ID),
     review: String(import.meta.env.VITE_APPWRITE_REVIEWS_COLLECTION_ID),
     products: String(import.meta.env.VITE_APPWRITE_PRODUCTS_COLLECTION_ID),
+    sales: String(import.meta.env.VITE_APPWRITE_SALES_COLLECTION_ID),
+    purchases: String(import.meta.env.VITE_APPWRITE_PRURCHASES_COLLECTION_ID),
+    payment_methods: String(
+      import.meta.env.VITE_APPWRITE_PAYMENTS_METHODS_COLLECTION_ID
+    ),
     categories: String(import.meta.env.VITE_APPWRITE_CATEGORIES_COLLECTION_ID),
   },
 };

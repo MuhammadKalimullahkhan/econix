@@ -26,6 +26,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { getCurrentUser } from "@/lib/appwrite/api";
 import ProfilePage from "@/pages/profile";
 import BottomNavBar from "@/components/bottom-nav-bar";
+import OrderPage from "./pages/order";
 
 //
 export default () => {
@@ -41,6 +42,7 @@ export default () => {
         { path: "/search/:term", Component: ExplorePage },
         { path: "/category/:category", Component: HomePage },
         { path: "/product/:productId", Component: ProductDetailsPage },
+        { path: "/order/:productId", Component: OrderPage },
 
         // user routes
         { path: "/profile", Component: ProfilePage },

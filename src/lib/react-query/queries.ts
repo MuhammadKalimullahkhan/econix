@@ -6,11 +6,13 @@ import {
 } from "@tanstack/react-query";
 
 import {
+  createPurchase,
   createReview,
   createUserAccount,
   getCategories,
   getCurrentUser,
   getInfiniteProducts,
+  getPaymentMethods,
   getProductById,
   getReviewsByProductId,
   searchProduct,
@@ -51,6 +53,26 @@ export const useGetCategories = () => {
   return useQuery({
     queryKey: [QUERY_KEYS.GET_CATEGORIES],
     queryFn: getCategories,
+  });
+};
+
+// PURCHASE
+export const useGetPaymentMethods = () => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_PAYMENT_METHODS],
+    queryFn: getPaymentMethods,
+  });
+};
+
+export const useCreatePurchase = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: createPurchase,
+    onSuccess: (_) => {
+      queryClient.invalidateQueries({
+        queryKey: [],
+      });
+    },
   });
 };
 
