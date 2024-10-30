@@ -33,6 +33,7 @@ const ProductCard = ({
         className="w-full h-[190px] object-top object-cover"
         src={imagePath as string}
         alt=""
+        loading="lazy"
       />
 
       <span className="p-2 rounded-lg absolute right-4 top-[155px] bg-white/40 backdrop-blur-lg font-semibold border border-white">

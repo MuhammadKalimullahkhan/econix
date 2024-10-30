@@ -42,11 +42,12 @@ const LoginForm = () => {
     try {
       // singin to account
       const session = await signInAccount(user);
+      const currentUser = await getCurrentUser();
 
-      if (session) {
+      if (!currentUser) throw Error;
+
+      if (session && currentUser.verified) {
         // updating user state
-        const currentUser = await getCurrentUser();
-        if (!currentUser) throw Error;
         dispatch(login(currentUser));
 
         toast({ title: "Login Success" });

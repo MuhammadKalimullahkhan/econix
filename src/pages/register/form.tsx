@@ -2,16 +2,12 @@ import Loading from "@/components/loading";
 import { Button } from "@/components/ui/button";
 import { IconInput } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import { getCurrentUser } from "@/lib/appwrite/api";
-import {
-  useCreateUserAccount,
-  useSignInAccount,
-} from "@/lib/react-query/queries";
-import { login } from "@/redux/authSlice";
+import { getAccount } from "@/lib/appwrite/api";
+import { useCreateUserAccount } from "@/lib/react-query/queries";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { AppwriteException } from "appwrite";
 import { Eye, Mail, User } from "react-feather";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
 
@@ -19,7 +15,7 @@ import { z } from "zod";
 const loginSchema = z.object({
   name: z.string().min(4, "Name must be at least 4 characters"),
   email: z.string().min(2).max(35).email("Invalid email address"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
+  password: z.string().min(8),
 });
 
 type RegisterFormValues = z.infer<typeof loginSchema>;
@@ -34,33 +30,27 @@ const RegisterForm = () => {
   });
 
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const { toast } = useToast();
 
   // Queries
   const { mutateAsync: createUserAccount, isPending: isCreatingUser } =
     useCreateUserAccount();
-  const { mutateAsync: signInAccount, isPending: isSigninUser } =
-    useSignInAccount();
 
   const onSubmit = async (user: RegisterFormValues) => {
     try {
       const newUser = await createUserAccount(user);
-      if (!newUser) {
-        toast({ title: "Sign up failed. Please try again." });
-      }
-      const session = await signInAccount({
-        email: user.email,
-        password: user.password,
-      });
-      if (!session) {
-        toast({ title: "Something went wrong. Please login your new account" });
-        return navigate("/auth/login");
-      }
-      const currentUser = await getCurrentUser();
-      dispatch(login(currentUser));
+      const userAccount = await getAccount();
 
-      return navigate("/");
+      localStorage.setItem("myuserdata", JSON.stringify(userAccount));
+
+      if (!newUser) throw AppwriteException;
+
+      toast({
+        title: "Registeration Success",
+        description: "Please verify your email address.",
+      });
+
+      return navigate("/auth/login");
     } catch (error: any) {
       toast({ title: "Login Failed", description: error.message.toString() });
     }
@@ -92,12 +82,8 @@ const RegisterForm = () => {
             {...register("password")}
           />
 
-          <Button
-            className="w-full"
-            type="submit"
-            disabled={isCreatingUser || isSigninUser}
-          >
-            {isCreatingUser || isSigninUser ? <Loading /> : "Sign Up"}
+          <Button className="w-full" type="submit" disabled={isCreatingUser}>
+            {isCreatingUser ? <Loading /> : "Sign Up"}
           </Button>
 
           <div className="text-center">

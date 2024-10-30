@@ -27,6 +27,7 @@ import { getCurrentUser } from "@/lib/appwrite/api";
 import ProfilePage from "@/pages/profile";
 import BottomNavBar from "@/components/bottom-nav-bar";
 import OrderPage from "./pages/order";
+import ConfirmEmail from "./pages/confirm-email";
 
 //
 export default () => {
@@ -60,6 +61,11 @@ export default () => {
           loader: () => "register Loader..",
         },
       ],
+    },
+    {
+      path: "/confirm-email",
+      element: <ConfirmEmail />,
+      loader: () => null,
     },
   ]);
 
@@ -112,8 +118,12 @@ const Layout = () => {
   }, []);
 
   useEffect(() => {
-    if (authStatus) {
-      navigate("/");
+    const currentPath = window.location.pathname;
+
+    if (!authStatus && currentPath.startsWith("/confirm-email")) return;
+    else if (authStatus) {
+      if (currentPath.startsWith("/auth")) navigate("/");
+      else navigate(-1);
     } else {
       navigate("/auth/login");
     }

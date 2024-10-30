@@ -1,7 +1,7 @@
-import { ID, Query } from "appwrite";
+import { AppwriteException, ID, Query } from "appwrite";
 
 import { INewUser, Reviews, USER_ROLES } from "@/types";
-import { account, appwriteConfig, avatars, databases, storage } from "./config";
+import { account, appwriteConfig, databases, storage } from "./config";
 
 // ============================================================
 // AUTH
@@ -17,19 +17,12 @@ export async function createUserAccount(user: INewUser) {
       user.name
     );
 
-    if (!newAccount) throw Error;
+    await account.createEmailPasswordSession(user.email, user.password);
+    await account.createVerification(window.location.origin + "/confirm-email");
 
-    const avatarUrl = avatars.getInitials(user.name);
+    if (!newAccount) throw AppwriteException;
 
-    const newUser = await saveUserToDB({
-      id: newAccount.$id,
-      name: newAccount.name,
-      email: newAccount.email,
-      imageUrl: avatarUrl.href,
-      role: USER_ROLES.CUSTOMER,
-    });
-
-    return newUser;
+    return newAccount;
   } catch (error) {
     console.log(error);
     return error;
@@ -42,6 +35,7 @@ export async function saveUserToDB(user: {
   name: string;
   email: string;
   imageUrl: string;
+  verified: boolean;
   role?: USER_ROLES;
 }) {
   try {
@@ -197,7 +191,8 @@ export async function getInfiniteProducts({
 }: {
   pageParam: number;
 }) {
-  const queries: any[] = [Query.orderDesc("$createdAt"), Query.limit(12)];
+  const size = 5;
+  const queries: any[] = [Query.orderDesc("$createdAt"), Query.limit(size)];
 
   if (pageParam) {
     queries.push(Query.cursorAfter(pageParam.toString()));
@@ -301,7 +296,12 @@ export async function uploadFile(file: File) {
 // ============================== GET FILE URL
 export function getFilePreview(fileId: string) {
   try {
-    const fileUrl = storage.getFilePreview(appwriteConfig.storageId, fileId);
+    const fileUrl = storage.getFilePreview(
+      appwriteConfig.storageId,
+      fileId,
+      600,
+      600
+    );
     if (!fileUrl) throw Error;
     return fileUrl;
   } catch (error) {

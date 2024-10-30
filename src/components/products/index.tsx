@@ -24,10 +24,10 @@ const Products = ({
             page?.documents.map((product) => (
               <ProductCard
                 key={product.$id}
-                imagePath={
-                  product.images.length > 0 &&
-                  JSON.parse(product.images[0]).href
-                }
+                imagePath={String(JSON.parse(product.images[0]).href).replace(
+                  /width=2000&height=2000/g,
+                  "width=300&height=300"
+                )}
                 name={product.name}
                 slug={product.$id}
                 price={product.price.toFixed(2)}
