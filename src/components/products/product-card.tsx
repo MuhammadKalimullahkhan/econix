@@ -36,7 +36,7 @@ const ProductCard = ({
         loading="lazy"
       />
 
-      <span className="p-2 rounded-lg absolute right-4 top-[155px] bg-white/40 backdrop-blur-lg font-semibold border border-white">
+      <span className="text-xs p-2 rounded-lg absolute right-4 top-[155px] bg-white/40 backdrop-blur-lg font-semibold border border-white">
         {stock} Items in stock
       </span>
 

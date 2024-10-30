@@ -123,7 +123,7 @@ const Layout = () => {
       .finally(() => setLoading(false));
   }, []);
 
-  if (!authStatus) return <Navigate to={"/auth/login"} />;
+  if (!authStatus && !loading) return <Navigate to={"/auth/login"} />;
 
   return (
     <main
