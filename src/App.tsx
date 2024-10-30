@@ -12,22 +12,23 @@ import Nabvar from "@/components/navbar";
 import { buttonVariants } from "@/components/ui/button";
 import ExplorePage from "@/pages/explore";
 import HomePage from "@/pages/home";
-import Login from "@/pages/login";
 import ProductDetailsPage from "@/pages/product-details";
-import Register from "@/pages/register";
 import { SearchPage } from "@/pages/search";
 import { useEffect, useState } from "react";
 
+import BottomNavBar from "@/components/bottom-nav-bar";
 import Loading from "@/components/loading";
-import { login, logout } from "@/redux/authSlice";
-import { RootState, store } from "@/redux/store";
 import Sidebar from "@/components/sidebar";
 import { Toaster } from "@/components/ui/toaster";
 import { getCurrentUser } from "@/lib/appwrite/api";
+import LoginPage from "@/pages/auth/login";
+import RegisterPage from "@/pages/auth/register";
 import ProfilePage from "@/pages/profile";
-import BottomNavBar from "@/components/bottom-nav-bar";
-import OrderPage from "./pages/order";
+import { login, logout } from "@/redux/authSlice";
+import { RootState, store } from "@/redux/store";
+import AuthLayout from "./pages/auth/Layout";
 import ConfirmEmail from "./pages/confirm-email";
+import OrderPage from "./pages/order";
 
 //
 export default () => {
@@ -39,26 +40,30 @@ export default () => {
       children: [
         // product routes
         { index: true, element: <Navigate to={"/category/all"} /> },
-        { path: "/search/", Component: SearchPage },
-        { path: "/search/:term", Component: ExplorePage },
-        { path: "/category/:category", Component: HomePage },
-        { path: "/product/:productId", Component: ProductDetailsPage },
-        { path: "/order/:productId", Component: OrderPage },
+        { path: "search/", Component: SearchPage },
+        { path: "search/:term", Component: ExplorePage },
+        { path: "category/:category", Component: HomePage },
+        { path: "product/:productId", Component: ProductDetailsPage },
+        { path: "order/:productId", Component: OrderPage },
 
         // user routes
-        { path: "/profile", Component: ProfilePage },
+        { path: "profile", Component: ProfilePage },
 
         { path: "*", Component: PageNotFound },
+      ],
+    },
+    {
+      id: "auth",
+      path: "/auth",
+      Component: AuthLayout,
+      children: [
         {
-          id: "login",
-          path: "auth/login",
-          element: <Login />,
-          loader: () => null,
+          path: "login",
+          Component: LoginPage,
         },
         {
-          path: "auth/register",
-          element: <Register />,
-          loader: () => "register Loader..",
+          path: "register",
+          Component: RegisterPage,
         },
       ],
     },
@@ -117,17 +122,19 @@ const Layout = () => {
       .finally(() => setLoading(false));
   }, []);
 
-  useEffect(() => {
-    const currentPath = window.location.pathname;
+  if (!authStatus) return <Navigate to={"/auth/login"} />;
 
-    if (!authStatus && currentPath.startsWith("/confirm-email")) return;
-    else if (authStatus) {
-      if (currentPath.startsWith("/auth")) navigate("/");
-      else navigate(-1);
-    } else {
-      navigate("/auth/login");
-    }
-  }, [authStatus, navigate]);
+  // useEffect(() => {
+  //   const currentPath = window.location.pathname;
+
+  //   if (!authStatus && currentPath.startsWith("/confirm-email")) return;
+  //   if (authStatus) {
+  //     if (currentPath.startsWith("/auth")) navigate("/");
+  //     else navigate(-1);
+  //   } else {
+  //     navigate("/auth/login");
+  //   }
+  // }, [authStatus]);
 
   return (
     <main

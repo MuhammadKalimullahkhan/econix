@@ -21,7 +21,7 @@ const loginSchema = z.object({
 
 type LoginFormValues = z.infer<typeof loginSchema>;
 
-const LoginForm = () => {
+const LoginPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { toast } = useToast();
@@ -105,4 +105,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default LoginPage;

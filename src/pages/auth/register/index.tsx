@@ -20,7 +20,7 @@ const loginSchema = z.object({
 
 type RegisterFormValues = z.infer<typeof loginSchema>;
 
-const RegisterForm = () => {
+const RegisterPage = () => {
   const {
     register,
     handleSubmit,
@@ -98,4 +98,4 @@ const RegisterForm = () => {
   );
 };
 
-export default RegisterForm;
+export default RegisterPage;

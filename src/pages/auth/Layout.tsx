@@ -1,19 +1,19 @@
-import RegisterForm from "./form";
+import { Outlet } from "react-router-dom";
 
-const Register = () => {
+const AuthLayout = () => {
   return (
-    <section className="container h-full flex flex-col">
+    <section className="container min-h-screen flex flex-col">
       <div className="text-center mt-8">
         <h1 className="text-4xl font-bold font-amster tracking-wider">
           {import.meta.env.VITE_APP_NAME.toUpperCase()}
         </h1>
         <p className="text-zinc-400">Register to begin a new Journey.</p>
       </div>
-
-      {/* Register form component */}
-      <RegisterForm />
+      <div className="my-auto">
+        <Outlet />
+      </div>
     </section>
   );
 };
 
-export default Register;
+export default AuthLayout;
