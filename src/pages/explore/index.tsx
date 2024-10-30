@@ -17,12 +17,12 @@ const ExplorePage = () => {
       </div>
       {isLoading && <Loading />}
       <div className="mt-8">
-        <div className="w-full gap-4 grid grid-cols-1">
+        <div className="w-full gap-4 grid grid-cols-1 p-3">
           {productList?.documents.length! > 0 ? (
             productList?.documents.map((product) => (
               <ProductCard
                 key={product.$id}
-                imagePath={product.images[0]}
+                imagePath={JSON.parse(product.images[0]).href}
                 name={product.name}
                 slug={product.$id}
                 price={product.price}

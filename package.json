@@ -6,10 +6,10 @@
   "scripts": {
     "dev": "vite",
     "dev:lan": "vite --host",
-    "build": "tsc -b && vite build",
+    "build:web": "tsc --noEmit && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "build:android": "cp -r \"src\" \"../econix_build\"/ && cd \"../econix_build\"/ && npm run build && npx cap sync && npx cap open android"
+    "build": "cp -r \"src\" \"../econix_build\"/ && cd \"../econix_build\"/ && npm run build && npx cap sync && npx cap open android"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",

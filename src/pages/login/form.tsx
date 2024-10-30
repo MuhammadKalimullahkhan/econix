@@ -46,7 +46,7 @@ const LoginForm = () => {
       if (session) {
         // updating user state
         const currentUser = await getCurrentUser();
-        console.log(currentUser);
+        if (!currentUser) throw Error;
         dispatch(login(currentUser));
 
         toast({ title: "Login Success" });
@@ -84,9 +84,9 @@ const LoginForm = () => {
             {...register("password")}
           />
 
-          <p className="text-right">
+          {/* <p className="text-right">
             <Link to={"/auth/forgot-password"}>Forgot Password?</Link>
-          </p>
+          </p> */}
 
           <Button className="w-full" type="submit" disabled={isUserLoading}>
             {!isUserLoading ? "Sign In" : <Loading />}
