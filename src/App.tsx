@@ -76,6 +76,8 @@ export default () => {
 
   return (
     <Provider store={store}>
+      <Toaster />
+
       <RouterProvider router={router} />
     </Provider>
   );
@@ -107,7 +109,6 @@ const Layout = () => {
 
   const [loading, setLoading] = useState(true);
 
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -124,18 +125,6 @@ const Layout = () => {
 
   if (!authStatus) return <Navigate to={"/auth/login"} />;
 
-  // useEffect(() => {
-  //   const currentPath = window.location.pathname;
-
-  //   if (!authStatus && currentPath.startsWith("/confirm-email")) return;
-  //   if (authStatus) {
-  //     if (currentPath.startsWith("/auth")) navigate("/");
-  //     else navigate(-1);
-  //   } else {
-  //     navigate("/auth/login");
-  //   }
-  // }, [authStatus]);
-
   return (
     <main
       className="lg:mx-auto flex lg:max-w-[300px] lg:justify-center"
@@ -151,7 +140,6 @@ const Layout = () => {
           transform: isExpended ? "scale(.9) translateX(70vw)" : "unset",
         }}
       >
-        <Toaster />
         <Nabvar />
         {!loading ? <Outlet /> : <Loading />}
         <BottomNavBar />
