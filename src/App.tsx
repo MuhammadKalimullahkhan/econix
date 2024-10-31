@@ -1,7 +1,6 @@
 import { Provider, useDispatch, useSelector } from "react-redux";
 import {
   createBrowserRouter,
-  Link,
   Navigate,
   Outlet,
   RouterProvider,
@@ -9,7 +8,7 @@ import {
 } from "react-router-dom";
 
 import Nabvar from "@/components/navbar";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import ExplorePage from "@/pages/explore";
 import HomePage from "@/pages/home";
 import ProductDetailsPage from "@/pages/product-details";
@@ -28,8 +27,8 @@ import { login, logout } from "@/redux/authSlice";
 import { RootState, store } from "@/redux/store";
 import AuthLayout from "./pages/auth/Layout";
 import ConfirmEmail from "./pages/confirm-email";
-import OrderPage from "./pages/order";
 import ForgotPasswordPage from "./pages/forgot-password";
+import OrderPage from "./pages/order";
 
 //
 export default () => {
