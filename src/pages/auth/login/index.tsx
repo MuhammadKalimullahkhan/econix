@@ -85,9 +85,9 @@ const LoginPage = () => {
             {...register("password")}
           />
 
-          {/* <p className="text-right">
+          <p className="text-right">
             <Link to={"/auth/forgot-password"}>Forgot Password?</Link>
-          </p> */}
+          </p>
 
           <Button className="w-full" type="submit" disabled={isUserLoading}>
             {!isUserLoading ? "Sign In" : <Loading />}

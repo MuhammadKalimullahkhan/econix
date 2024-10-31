@@ -96,7 +96,6 @@ const Sidebar = () => {
         transition: "all 200ms",
         minWidth: isexpended ? "65%" : "0%",
         transform: !isexpended ? "translateX(-100vw)" : "translateX(0)",
-        // position: isexpended ? "unset" : "absolute",
         position: "absolute",
       }}
     >

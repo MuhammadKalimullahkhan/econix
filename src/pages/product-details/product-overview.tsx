@@ -25,15 +25,23 @@ const ProductOverview = ({
 }: {
   productDetails: Models.Document | undefined;
 }) => {
-  const WHATS_APP_CONTACT = `${import.meta.env.VITE_WHATS_APP_API}?phone=${
-    import.meta.env.VITE_WHATS_APP_CONTACT
-  }&text=${import.meta.env.VITE_WHATS_APP_MESSAGE}`;
-
   const userData = useSelector((state: RootState) => state.auth.user);
 
   const [showReviewSection, setShowReviewSection] = useState(false);
   const [reviewText, setReviewText] = useState("");
   const [rating, setRating] = useState<number | null>(null);
+
+  function generateWhatsAppChat() {
+    const currentLocation = window.location.href;
+    const productUrl = currentLocation.replace("localhost", "localhost.com");
+
+    let message = import.meta.env.VITE_WHATS_APP_API;
+    message += "?phone=" + import.meta.env.VITE_WHATS_APP_CONTACT;
+    message += "&text=" + productUrl;
+    // message += import.meta.env.VITE_WHATS_APP_MESSAGE;
+
+    return message;
+  }
 
   // Query
   const { mutateAsync: createReview, isPending: isLoadingCreateReview } =
@@ -90,17 +98,18 @@ const ProductOverview = ({
         <div className="flex flex-col gap-3 mt-4 ">
           <div className="flex gap-3">
             <Link
-              to={WHATS_APP_CONTACT}
-              className={buttonVariants({
-                variant: "default",
-                className: "w-full",
-              })}
+              target="_blank"
+              to={generateWhatsAppChat()}
+              className={buttonVariants()}
             >
               <WhatsApp />
             </Link>
             <Link
               to={"/order/" + productDetails?.$id}
-              className={buttonVariants({ variant: "secondary" })}
+              className={buttonVariants({
+                variant: "secondary",
+                className: "w-full",
+              })}
             >
               Order
             </Link>

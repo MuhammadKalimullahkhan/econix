@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Home, Search, User } from "react-feather";
 import RequiredLogin from "./shared/required-login";
 import { useLocation, useNavigate } from "react-router-dom";
+import { cn } from "@/lib/utils";
 
 const BottomNavBar: React.FC = () => {
   const [activeTab, setActiveTab] = useState("home");
@@ -41,15 +42,21 @@ const BottomNavBar: React.FC = () => {
             <li key={item.id} className="flex-1">
               <button
                 onClick={() => handleNavClick(item.id, item.slug)}
-                className={`w-full flex flex-col items-center justify-center p-2 rounded-lg transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary ${
+                className={`w-full flex items-center justify-center p-2 rounded-md transition-all duration-300 ease-in-out focus:outline-none ${
                   activeTab === item.id
-                    ? "bg-primary text-primary-foreground font-bold"
+                    ? "bg-primary/20 text-primary font-bold"
                     : "hover:bg-primary/70"
                 }`}
                 aria-label={item.label}
               >
-                <item.icon size={14} className="text-2xl mb-1" />
-                <span>{item.label}</span>
+                <item.icon
+                  size={18}
+                  className={cn(
+                    activeTab === item.id && "fill-primary",
+                    "text-2xl mb-1"
+                  )}
+                />
+                {/* <span>{item.label}</span> */}
               </button>
             </li>
           ))}

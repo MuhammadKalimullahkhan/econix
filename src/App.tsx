@@ -9,7 +9,7 @@ import {
 } from "react-router-dom";
 
 import Nabvar from "@/components/navbar";
-import { buttonVariants } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import ExplorePage from "@/pages/explore";
 import HomePage from "@/pages/home";
 import ProductDetailsPage from "@/pages/product-details";
@@ -29,6 +29,7 @@ import { RootState, store } from "@/redux/store";
 import AuthLayout from "./pages/auth/Layout";
 import ConfirmEmail from "./pages/confirm-email";
 import OrderPage from "./pages/order";
+import ForgotPasswordPage from "./pages/forgot-password";
 
 //
 export default () => {
@@ -48,8 +49,6 @@ export default () => {
 
         // user routes
         { path: "profile", Component: ProfilePage },
-
-        { path: "*", Component: PageNotFound },
       ],
     },
     {
@@ -65,35 +64,39 @@ export default () => {
           path: "register",
           Component: RegisterPage,
         },
+        {
+          path: "forgot-password",
+          Component: ForgotPasswordPage,
+        },
       ],
     },
     {
       path: "/confirm-email",
       element: <ConfirmEmail />,
-      loader: () => null,
     },
+    { path: "*", Component: PageNotFound },
   ]);
 
   return (
     <Provider store={store}>
       <Toaster />
-
       <RouterProvider router={router} />
     </Provider>
   );
 };
 
 const PageNotFound = () => {
+  const navigate = useNavigate();
   return (
     <main className="lg:mx-auto lg:w-[300px] lg:p-0 h-[calc(100vh-55px)] bg-background flex flex-col">
       <div className="m-auto space-y-3">
         <div className="space-x-4">
           <span>404</span> <small>|</small> <span>Page Not Found</span>
         </div>
-        <Link className={buttonVariants({ variant: "ghost" })} to={"/"}>
+        <Button variant={"ghost"} onClick={() => navigate(-1)}>
           <span className="mr-2">&larr;</span>
-          Back to Home
-        </Link>
+          Go Back
+        </Button>
       </div>
     </main>
   );
@@ -135,7 +138,7 @@ const Layout = () => {
     >
       <Sidebar />
       <section
-        className="w-full lg:mx-auto lg:p-0 h-screen bg-background flex flex-col transition-transform duration-200"
+        className="w-full lg:mx-auto lg:p-0 min-h-screen bg-background flex flex-col transition-transform duration-200"
         style={{
           transform: isExpended ? "scale(.9) translateX(70vw)" : "unset",
         }}

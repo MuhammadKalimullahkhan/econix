@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import * as React from "react";
-import { IconProps } from "react-feather";
+import { IconProps, Eye, EyeOff } from "react-feather";
 import { FieldError } from "react-hook-form";
 
 export interface InputProps
@@ -29,10 +29,17 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 
 const IconInput = React.forwardRef<HTMLInputElement, IIconInputProps>(
   ({ className, type, icon: IconComponent, error: errors, ...props }, ref) => {
+    const [showPassword, setShowPassword] = React.useState(false);
+    const isPasswordType = type === "password";
+
     const ICONS_STYLES: IconProps = {
       size: 22,
       opacity: 0.7,
       className: "text-foreground",
+    };
+
+    const handleTogglePassword = () => {
+      setShowPassword((prev) => !prev);
     };
 
     return (
@@ -46,11 +53,24 @@ const IconInput = React.forwardRef<HTMLInputElement, IIconInputProps>(
         >
           {IconComponent && <IconComponent {...ICONS_STYLES} />}
           <Input
-            type={type}
+            type={isPasswordType && showPassword ? "text" : type}
             className="bg-background border-none shadow-none focus-visible:ring-0"
             ref={ref}
             {...props}
           />
+          {isPasswordType && (
+            <button
+              type="button"
+              onClick={handleTogglePassword}
+              className="ml-2 focus:outline-none"
+            >
+              {showPassword ? (
+                <EyeOff {...ICONS_STYLES} />
+              ) : (
+                <Eye {...ICONS_STYLES} />
+              )}
+            </button>
+          )}
         </div>
         {errors?.message && (
           <p className="text-destructive text-sm ml-2 mt-1">
