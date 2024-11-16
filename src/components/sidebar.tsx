@@ -2,7 +2,7 @@ import { useSignOutAccount } from "@/lib/react-query/queries";
 import { logout } from "@/redux/authSlice";
 import { toggleSidebar } from "@/redux/sidebarSlice";
 import { RootState } from "@/redux/store";
-import { ChevronRight, Home, LogOut, User } from "react-feather";
+import { ChevronRight, Home, LogOut, ShoppingCart, User } from "react-feather";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
@@ -60,9 +60,15 @@ const NavLink = ({ name, slug, icon }: INavLink) => {
 };
 
 const Links = () => {
+  const ICONS_STYLE = { size: 16, fill: "" };
   const navLinks = [
-    { name: "home", slug: "/", icon: <Home size={16} /> },
-    { name: "profile", slug: "/profile", icon: <User size={16} /> },
+    { name: "home", slug: "/", icon: <Home {...ICONS_STYLE} /> },
+    { name: "profile", slug: "/profile", icon: <User {...ICONS_STYLE} /> },
+    {
+      name: "my orders",
+      slug: "/orders",
+      icon: <ShoppingCart {...ICONS_STYLE} />,
+    },
   ];
 
   return (

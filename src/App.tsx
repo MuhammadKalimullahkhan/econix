@@ -29,6 +29,7 @@ import AuthLayout from "./pages/auth/Layout";
 import ConfirmEmail from "./pages/confirm-email";
 import ForgotPasswordPage from "./pages/forgot-password";
 import OrderPage from "./pages/order";
+import OrdersPage from "./pages/orders";
 
 //
 export default () => {
@@ -48,6 +49,7 @@ export default () => {
 
         // user routes
         { path: "profile", Component: ProfilePage },
+        { path: "orders", Component: OrdersPage },
       ],
     },
     {

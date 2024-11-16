@@ -361,6 +361,24 @@ export async function createPurchase(purchaseObj: any) {
   }
 }
 
+// ORDERS
+export async function getCurrentUserOrders() {
+  try {
+    const currentAccount = await getCurrentUser();
+    if (!currentAccount) throw new Error("Please! login first");
+
+    const newPurchase = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.collections.purchases,
+      [Query.equal("users", currentAccount.$id)]
+    );
+
+    return newPurchase;
+  } catch (error: any) {
+    console.error(error);
+  }
+}
+
 // ============================== UPDATE POST
 // export async function updatePost(post: IUpdatePost) {
 //   const hasFileToUpdate = post.file.length > 0;

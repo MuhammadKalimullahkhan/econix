@@ -11,6 +11,7 @@ import {
   createUserAccount,
   getCategories,
   getCurrentUser,
+  getCurrentUserOrders,
   getInfiniteProducts,
   getPaymentMethods,
   getProductById,
@@ -123,6 +124,22 @@ export const useCreateReview = () => {
   });
 };
 
+export const useGetProductById = (productId?: string) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_POST_BY_ID, productId],
+    queryFn: () => getProductById(productId),
+    enabled: !!productId,
+  });
+};
+
+// ORDERS
+export const useGetCurrentUserOrders = () => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_CURRENT_USER_ORDERS],
+    queryFn: getCurrentUserOrders,
+  });
+};
+
 // export const useCreatePost = () => {
 //   const queryClient = useQueryClient();
 //   return useMutation({
@@ -134,15 +151,6 @@ export const useCreateReview = () => {
 //     },
 //   });
 // };
-
-export const useGetProductById = (productId?: string) => {
-  return useQuery({
-    queryKey: [QUERY_KEYS.GET_POST_BY_ID, productId],
-    queryFn: () => getProductById(productId),
-    enabled: !!productId,
-  });
-};
-
 // export const useGetUserPosts = (userId?: string) => {
 //   return useQuery({
 //     queryKey: [QUERY_KEYS.GET_USER_PRODUCTS, userId],
