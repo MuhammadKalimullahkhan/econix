@@ -28,8 +28,9 @@ import { RootState, store } from "@/redux/store";
 import AuthLayout from "./pages/auth/Layout";
 import ConfirmEmail from "./pages/confirm-email";
 import ForgotPasswordPage from "./pages/forgot-password";
-import OrderPage from "./pages/order";
+import PlaceOrderPage from "./pages/place-order";
 import OrdersPage from "./pages/orders";
+import TrackOrder from "./pages/TrackOrder";
 
 //
 export default () => {
@@ -45,11 +46,12 @@ export default () => {
         { path: "search/:term", Component: ExplorePage },
         { path: "category/:category", Component: HomePage },
         { path: "product/:productId", Component: ProductDetailsPage },
-        { path: "order/:productId", Component: OrderPage },
+        { path: "place-order/:productId", Component: PlaceOrderPage },
 
         // user routes
         { path: "profile", Component: ProfilePage },
         { path: "orders", Component: OrdersPage },
+        { path: "orders/:orderId", Component: TrackOrder },
       ],
     },
     {

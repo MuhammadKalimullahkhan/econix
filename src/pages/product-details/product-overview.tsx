@@ -105,7 +105,7 @@ const ProductOverview = ({
               <WhatsApp />
             </Link>
             <Link
-              to={"/order/" + productDetails?.$id}
+              to={"/place-order/" + productDetails?.$id}
               className={buttonVariants({
                 variant: "secondary",
                 className: "w-full",

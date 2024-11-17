@@ -346,7 +346,7 @@ export async function createPurchase(purchaseObj: any) {
 
     const newPurchase = await databases.createDocument(
       appwriteConfig.databaseId,
-      appwriteConfig.collections.purchases,
+      appwriteConfig.collections.orders,
       ID.unique(),
       { ...purchaseObj, recieptImage: imgPreviewUrl }
     );
@@ -369,7 +369,7 @@ export async function getCurrentUserOrders() {
 
     const newPurchase = await databases.listDocuments(
       appwriteConfig.databaseId,
-      appwriteConfig.collections.purchases,
+      appwriteConfig.collections.orders,
       [Query.equal("users", currentAccount.$id)]
     );
 
@@ -379,6 +379,40 @@ export async function getCurrentUserOrders() {
   }
 }
 
+// SHIPMENT
+export async function createShipment(data: any) {
+  try {
+    const newShipment = await databases.createDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.collections.shipment,
+      ID.unique(),
+      data
+    );
+    if (!newShipment) throw AppwriteException;
+
+    return newShipment;
+  } catch (error: any) {
+    console.error(error);
+  }
+}
+
+export async function getOrderById(id: string) {
+  try {
+    const currentAccount = await getCurrentUser();
+    if (!currentAccount) throw new Error("Please! login first");
+
+    const order = await databases.getDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.collections.orders,
+      id,
+      []
+    );
+
+    return order;
+  } catch (error: any) {
+    console.error(error);
+  }
+}
 // ============================== UPDATE POST
 // export async function updatePost(post: IUpdatePost) {
 //   const hasFileToUpdate = post.file.length > 0;

@@ -1,6 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=New+Amsterdam&display=swap');
-
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=New+Amsterdam&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -92,7 +91,6 @@
 }
 
 @layer utilities {
-
   /* .no-scrollbar {
     scrollbar-width: none;
     -ms-overflow-style: none;
@@ -134,4 +132,17 @@
     @apply mb-2 text-justify;
   }
 
+  .table-custom {
+    width: 600px;
+    min-width: 100%;
+  }
+
+  .table-custom tr th {
+    padding: 12px 20px;
+    @apply text-muted-foreground bg-muted first:rounded-tl-lg last:rounded-tr-lg border-r last:border-r-0;
+  }
+
+  .table-custom tr td {
+    @apply px-2 py-3 border-r last:border-r-0;
+  }
 }

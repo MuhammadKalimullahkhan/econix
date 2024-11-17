@@ -13,6 +13,7 @@ import {
   getCurrentUser,
   getCurrentUserOrders,
   getInfiniteProducts,
+  getOrderById,
   getPaymentMethods,
   getProductById,
   getReviewsByProductId,
@@ -139,6 +140,12 @@ export const useGetCurrentUserOrders = () => {
     queryFn: getCurrentUserOrders,
   });
 };
+
+export const useGetOrderById = (orderId?: string) =>
+  useQuery({
+    queryKey: [QUERY_KEYS.GET_ORDER_BY_ID, orderId],
+    queryFn: () => getOrderById(orderId!),
+  });
 
 // export const useCreatePost = () => {
 //   const queryClient = useQueryClient();

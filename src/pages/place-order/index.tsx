@@ -8,7 +8,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { IconInput } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -17,6 +17,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { toast } from "@/hooks/use-toast";
+import { createShipment } from "@/lib/appwrite/api";
 import {
   useCreatePurchase,
   useGetPaymentMethods,
@@ -24,14 +25,16 @@ import {
 } from "@/lib/react-query/queries";
 import { RootState } from "@/redux/store";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { AppwriteException, ID } from "appwrite";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { z } from "zod";
 
-const OrderPage = () => {
+const PlaceOrderPage = () => {
   const { productId } = useParams();
+  const navigate = useNavigate();
 
   const { data: productData, isLoading: isLoadingProduct } =
     useGetProductById(productId);
@@ -45,6 +48,14 @@ const OrderPage = () => {
   const userData = useSelector((state: RootState) => state.auth.user);
 
   const schema = z.object({
+    quantity: z
+      .number()
+      .min(1, "Quantity must be at least 1")
+      .positive("Quantity must be positive"),
+    address: z
+      .string()
+      .min(15, "Address must be at least 15 characters")
+      .max(1024, "Address must be less than 1024 characters"),
     paymentMethod: z.string(),
     recieptImage: z
       .instanceof(File)
@@ -59,27 +70,62 @@ const OrderPage = () => {
 
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
+    defaultValues: { quantity: 1, address: "" },
   });
 
   async function onSubmit(values: z.infer<typeof schema>) {
+    if (!productData) return;
+
+    if (!values.paymentMethod)
+      return toast({
+        title: "Purchased Failed",
+        description: "Payment Method is required",
+        variant: "destructive",
+      });
+
+    if (parseInt(productData.stock) < values.quantity)
+      return toast({
+        title: "Could'nt Ordered",
+        description:
+          "Stock limit exceded. Stock limit is: " + productData.stock,
+        variant: "destructive",
+      });
+
     try {
-      await createPurchase({
+      const newOrder = await createPurchase({
+        quantity: values.quantity,
         recieptImage: values.recieptImage,
-        amountPaid: productData?.price,
+        amountPaid: productData?.price * values.quantity,
         users: userData?.$id,
         products: productData?.$id,
         paymentMethods: values.paymentMethod,
       });
 
-      toast({
-        title: "Purchased Success",
-        description: "You Purchased this item",
+      if (!newOrder) throw AppwriteException;
+
+      const newShipment = await createShipment({
+        trackingNumber: ID.unique().toString().slice(0, 9),
+        address: values.address,
+        orders: newOrder.$id,
       });
+
+      if (!newShipment) throw AppwriteException;
+
+      toast({
+        title: "Order Success",
+        description: "Your Order has been placed.",
+      });
+
+      // redirect to orders page
+      navigate("/orders");
     } catch (error: any) {
       toast({
-        title: "Purchased Failed",
+        title: "Order Failed",
         description: error.message,
+        variant: "destructive",
       });
+    } finally {
+      form.reset();
     }
   }
 
@@ -117,6 +163,46 @@ const OrderPage = () => {
             onSubmit={form.handleSubmit(onSubmit)}
             className="mt-4 space-y-4"
           >
+            <FormField
+              control={form.control}
+              name="quantity"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Quantity</FormLabel>
+                  <FormControl>
+                    <IconInput
+                      {...field}
+                      type="number"
+                      value={field.value}
+                      onChange={(e) => field.onChange(e.target.valueAsNumber)}
+                      placeholder="Product Quantity"
+                      error={form.formState.errors.quantity}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="address"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel title="the destination address product will shipped to.">
+                    Address
+                  </FormLabel>
+                  <FormControl>
+                    <IconInput
+                      {...field}
+                      type="text"
+                      placeholder="Shipment Address"
+                      error={form.formState.errors.address}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+
             {isLoadingPaymentMethods ? (
               <Loading />
             ) : (
@@ -161,9 +247,10 @@ const OrderPage = () => {
                 <FormItem>
                   <FormLabel>Payment Reciept</FormLabel>
                   <FormControl>
-                    <Input
+                    <IconInput
                       onChange={(e) => field.onChange(e.target.files?.[0])}
                       type="file"
+                      error={form.formState.errors.recieptImage}
                     />
                   </FormControl>
                 </FormItem>
@@ -184,4 +271,4 @@ const OrderPage = () => {
   );
 };
 
-export default OrderPage;
+export default PlaceOrderPage;

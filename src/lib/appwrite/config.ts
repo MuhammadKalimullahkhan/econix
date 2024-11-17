@@ -11,7 +11,8 @@ export const appwriteConfig = {
     review: String(import.meta.env.VITE_APPWRITE_REVIEWS_COLLECTION_ID),
     products: String(import.meta.env.VITE_APPWRITE_PRODUCTS_COLLECTION_ID),
     sales: String(import.meta.env.VITE_APPWRITE_SALES_COLLECTION_ID),
-    purchases: String(import.meta.env.VITE_APPWRITE_PRURCHASES_COLLECTION_ID),
+    orders: String(import.meta.env.VITE_APPWRITE_ORDERS_COLLECTION_ID),
+    shipment: String(import.meta.env.VITE_APPWRITE_SHIPMENT_COLLECTION_ID),
     payment_methods: String(
       import.meta.env.VITE_APPWRITE_PAYMENTS_METHODS_COLLECTION_ID
     ),

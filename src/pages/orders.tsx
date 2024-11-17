@@ -1,19 +1,15 @@
 import Loading from "@/components/loading";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { useGetCurrentUserOrders } from "@/lib/react-query/queries";
-import { cn, multiFormatDateString } from "@/lib/utils";
+import { multiFormatDateString } from "@/lib/utils";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const OrdersPage = () => {
   const { data: currentUserOrders, isLoading: isLoadingCurrentOrders } =
     useGetCurrentUserOrders();
+
+  const navigate = useNavigate();
+
   return (
     <section className="container">
       {isLoadingCurrentOrders ? (
@@ -21,59 +17,70 @@ const OrdersPage = () => {
       ) : (
         <div className="space-y-4">
           {currentUserOrders?.documents.map((order, index) => (
-            <Card key={index} className="group relative p-2 rounded-md border">
-              <CardHeader className="sm:flex justify-between">
-                <CardTitle>Order ID: {order.$id}</CardTitle>
-                <CardDescription>
-                  Ordered {multiFormatDateString(order.$createdAt)}
-                </CardDescription>
-                <small
-                  className={cn(
-                    "transition opacity-0 group-hover:opacity-100 absolute right-2 top-2 p-1 px-2 rounded-full",
-                    order.paymentStatus && "bg-primary text-primary-foreground",
-                    !order.paymentStatus &&
-                      "bg-destructive text-destructive-foreground"
-                  )}
-                >
-                  {order.paymentStatus ? "Verified" : "Not-Verified"}
-                </small>
-              </CardHeader>
-              <CardContent className="gap-3 grid grid-cols-[50px_1fr]">
-                <img
-                  src={JSON.parse(order.products.images[0]).href.replace(
-                    /width=2000&height=2000/g,
-                    "width=50&height=50"
-                  )}
-                  alt="product image"
-                  className="rounded-md border"
-                />
-                <div>
-                  <strong>{order.products.name}</strong>
+            <div
+              key={index}
+              className="flex items-start gap-4 border-b py-4 last:border-b-0"
+            >
+              <NavLink to={`/product/${order.products.$id}`}>
+                <div className="relative aspect-[5/3.4] w-28 flex-shrink-0 border rounded-md">
+                  <img
+                    loading="lazy"
+                    decoding="async"
+                    data-nimg="fill"
+                    className="bg-muted-foreground object-cover rounded-md"
+                    sizes="100vw"
+                    src={JSON.parse(order.products.images[0]).href.replace(
+                      /width=2000&height=2000/g,
+                      "width=200&height=200"
+                    )}
+                    alt="product image"
+                  />
+                </div>
+              </NavLink>
+              <div className="flex flex-1 flex-col gap-4">
+                <div className="border-b border-light-400 pb-3">
+                  <p className="text-muted-foreground text-sm">
+                    Ordered {multiFormatDateString(order.$createdAt)}
+                  </p>
+                  <NavLink
+                    to={`/product/${order.products.$id}`}
+                    rel="noreferrer"
+                    className="font-medium text-primary"
+                  >
+                    <h3
+                      className="my-1.5 font-medium text-card-foreground"
+                      title="click to view the product"
+                    >
+                      {order.products.name}
+                    </h3>
+                  </NavLink>
                   <p className="text-sm text-muted-foreground">
-                    RS {order.products.price} via{" "}
+                    RS {order.products.price} {` x ${order.quantity}`} via{" "}
                     <span className="font-bold uppercase">
                       {order.paymentMethods.name}
                     </span>
                   </p>
                 </div>
-              </CardContent>
-              <CardFooter className="space-x-3">
-                <Button
-                  size={"sm"}
-                  variant={"outline"}
-                  className="w-full md:w-auto"
-                >
-                  Track
-                </Button>
-                {/* <Button
-                  size={"sm"}
-                  variant={"destructive"}
-                  className="w-full md:w-auto"
-                >
-                  Cancel
-                </Button> */}
-              </CardFooter>
-            </Card>
+                <div className="flex items-center gap-3">
+                  <Button
+                    size={"sm"}
+                    className="flex-1"
+                    title="track product shipment"
+                    onClick={() => navigate("/orders/" + order.$id)}
+                  >
+                    Track
+                  </Button>
+                  {/* <Button
+                    size={"sm"}
+                    variant={"destructive"}
+                    className="flex-1"
+                    title="cancel order"
+                  >
+                    Cancel
+                  </Button> */}
+                </div>
+              </div>
+            </div>
           ))}
         </div>
       )}

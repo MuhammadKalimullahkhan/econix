@@ -7,7 +7,7 @@ export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {}
 
 export interface IIconInputProps extends InputProps {
-  icon: React.ComponentType<IconProps>;
+  icon?: React.ComponentType<IconProps>;
   error?: FieldError;
 }
 
