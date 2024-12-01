@@ -9,24 +9,19 @@ import { account, appwriteConfig, databases, storage } from "./config";
 
 // ============================== SIGN UP
 export async function createUserAccount(user: INewUser) {
-  try {
-    const newAccount = await account.create(
-      ID.unique(),
-      user.email,
-      user.password,
-      user.name
-    );
+  const newAccount = await account.create(
+    ID.unique(),
+    user.email,
+    user.password,
+    user.name
+  );
 
-    await account.createEmailPasswordSession(user.email, user.password);
-    await account.createVerification(window.location.origin + "/confirm-email");
+  await account.createEmailPasswordSession(user.email, user.password);
+  await account.createVerification(window.location.origin + "/confirm-email");
 
-    if (!newAccount) throw AppwriteException;
+  if (!newAccount) throw AppwriteException;
 
-    return newAccount;
-  } catch (error) {
-    console.log(error);
-    return error;
-  }
+  return newAccount;
 }
 
 // ============================== SAVE USER TO DB
@@ -69,13 +64,13 @@ export async function signInAccount(user: { email: string; password: string }) {
 
 // ============================== GET ACCOUNT
 export async function getAccount() {
-  try {
-    const currentAccount = await account.get();
+  // try {
+  const currentAccount = await account.get();
 
-    return currentAccount;
-  } catch (error) {
-    console.log(error);
-  }
+  return currentAccount;
+  // } catch (error) {
+  //   console.log(error);
+  // }
 }
 
 // ============================== GET USER

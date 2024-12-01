@@ -50,9 +50,13 @@ const RegisterPage = () => {
         description: "Please verify your email address.",
       });
 
-      return navigate("/auth/login");
+      return navigate("/confirm-email");
     } catch (error: any) {
-      toast({ title: "Login Failed", description: error.message.toString() });
+      toast({
+        variant: "destructive",
+        title: "Registeration Failed",
+        description: error.message.toString(),
+      });
     }
   };
 

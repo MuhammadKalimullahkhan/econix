@@ -20,7 +20,7 @@ const Header = () => {
       <div className="relative w-full h-[200px]">
         <img
           src={userData && userData.imageUrl}
-          className="w-full h-full object-cover object-top"
+          className="w-full h-full object-cover object-center"
           alt="profile image"
         />
         <div className="text-background p-3 w-full absolute left-0 bottom-0 flex gap-3">

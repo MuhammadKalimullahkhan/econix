@@ -42,6 +42,7 @@ const ConfirmEmail = () => {
       navigate("/auth/login");
     } catch (error: any) {
       toast({
+        variant: "destructive",
         title: "Verification Failed",
         description: error.message as string,
       });

@@ -63,6 +63,7 @@ const ForgotPasswordPage = () => {
       }
     } catch (error: any) {
       toast({
+        variant: "destructive",
         title: "Failed to Reset Password",
         description: error.message.toString(),
       });

@@ -60,6 +60,7 @@ const LoginPage = () => {
       }
     } catch (error: any) {
       toast({
+        variant: "destructive",
         title: "Login Failed",
         description: error.message,
       });
