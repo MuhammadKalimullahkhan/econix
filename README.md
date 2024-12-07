@@ -24,8 +24,11 @@ cd <project-name>
 npm install
 ```
 
-- After installing Modules `Rename` the `.env.sample` to `.env` or `.env.local` **OR**
-  Add `.env.local` file to the root of the project where `package.json` file is located. And add the following VARIABLES
+- After installing Modules `Rename` the `.env.sample` to `.env` or `.env.local`
+
+**OR**
+
+- Add `.env.local` file to the root of the project where `package.json` file is located. And add the following VARIABLES
 
 ```bash
 # App Settings
@@ -60,6 +63,8 @@ npm run dev
 # or
 npm run dev:lan
 ```
+
+---
 
 ## Packaging to Android/IOS App
 
@@ -113,6 +118,8 @@ npx cap run android
 ```
 
 If you want to reflect the new `Changes` in capacitor project (android or ios project) you will have to `rebuild` and `sync` the project.
+
+---
 
 ## Technologies used
 
