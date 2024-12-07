@@ -15,7 +15,7 @@ This is minimalistic Ecomerce application where admin can sell their products th
 
 ```bash
 git clone https://github.com/MuhammadKalimullahkhan/econix.git
-cd <project-name>
+cd econix
 ```
 
 - Installing Modules and packages
