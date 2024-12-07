@@ -24,7 +24,7 @@ cd <project-name>
 npm install
 ```
 
-- Rename `.env.sample` to `.env` or `.env.local` **OR**
+- After installing Modules `Rename` the `.env.sample` to `.env` or `.env.local` **OR**
   Add `.env.local` file to the root of the project where `package.json` file is located. And add the following VARIABLES
 
 ```bash
