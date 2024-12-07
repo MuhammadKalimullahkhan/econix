@@ -69,6 +69,8 @@ npm run dev:lan
 # installing capacitor
 npm install @capacitor/core @capacitor/cli
 npx cap init [name] [id] --web-dir=dist
+# example
+npx cap init TestingApp com.yourcompony.testingapp --web-dir=dist
 ```
 
 - `[name]` is the name of your app i.e `Youtube`.
