@@ -71,8 +71,8 @@ npm install @capacitor/core @capacitor/cli
 npx cap init [name] [id] --web-dir=dist
 ```
 
-`[name]` is the name of your app i.e `Youtube`
-`[id]` is the domain name app `com.google.android.youtube`
+`[name]` is the name of your app i.e `Youtube`.
+`[id]` is the domain name for app `com.google.android.youtube`.
 `[--web-dir]` locates the `final build` directory of your project. i.e `build` or `dist`
 
 ```bash
