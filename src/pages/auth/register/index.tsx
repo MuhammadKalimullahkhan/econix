@@ -1,6 +1,7 @@
 import Loading from "@/components/loading";
 import { Button } from "@/components/ui/button";
 import { IconInput } from "@/components/ui/input";
+import { EMAIL_REGEX, NAME_REGEX } from "@/constants";
 import { useToast } from "@/hooks/use-toast";
 import { getAccount } from "@/lib/appwrite/api";
 import { useCreateUserAccount } from "@/lib/react-query/queries";
@@ -13,9 +14,23 @@ import { z } from "zod";
 
 // Define Zod schema for validation
 const loginSchema = z.object({
-  name: z.string().min(4, "Name must be at least 4 characters"),
-  email: z.string().min(2).max(35).email("Invalid email address"),
-  password: z.string().min(8),
+  name: z
+    .string()
+    .regex(
+      NAME_REGEX,
+      "Name is invalid. Name must contain only capital and small letters."
+    )
+    .min(4, "Name must be at least 4 characters"),
+  email: z
+    .string()
+    .regex(
+      EMAIL_REGEX,
+      "Email is invalid. Only one '@' is allowed, and only '-', '_', and '.' are valid special symbols."
+    )
+    .min(2)
+    .max(35)
+    .email("Invalid email address"),
+  password: z.string().min(8).max(16, "Password must be 16 characters."),
 });
 
 type RegisterFormValues = z.infer<typeof loginSchema>;

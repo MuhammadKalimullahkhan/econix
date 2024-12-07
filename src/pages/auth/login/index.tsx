@@ -12,11 +12,21 @@ import { useToast } from "@/hooks/use-toast";
 import { useSignInAccount } from "@/lib/react-query/queries";
 import { login } from "@/redux/authSlice";
 import { getCurrentUser } from "@/lib/appwrite/api";
+import { EMAIL_REGEX } from "@/constants";
 
 // Define Zod schema for validation
 const loginSchema = z.object({
-  email: z.string().email("Invalid email address"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
+  email: z
+    .string()
+    .regex(
+      EMAIL_REGEX,
+      "Invalid email format. Only one '@' is allowed, and only '-', '_', and '.' are valid special symbols."
+    )
+    .email("Invalid email address"),
+  password: z
+    .string()
+    .min(6, "Password must be at least 6 characters")
+    .max(16, "Password must be 16 characters"),
 });
 
 type LoginFormValues = z.infer<typeof loginSchema>;
@@ -90,7 +100,15 @@ const LoginPage = () => {
             <Link to={"/auth/forgot-password"}>Forgot Password?</Link>
           </p>
 
-          <Button className="w-full" type="submit" disabled={isUserLoading}>
+          <Button
+            className="w-full"
+            type="submit"
+            disabled={
+              isUserLoading ||
+              errors.email !== undefined ||
+              errors.password !== undefined
+            }
+          >
             {!isUserLoading ? "Sign In" : <Loading />}
           </Button>
 
