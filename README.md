@@ -61,7 +61,7 @@ npm run dev
 npm run dev:lan
 ```
 
-## Packaging to Android App
+## Packaging to Android/IOS App
 
 - install and configuring [Capacitor](https://capacitorjs.com/)
 
