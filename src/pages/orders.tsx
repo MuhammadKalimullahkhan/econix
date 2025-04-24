@@ -1,7 +1,7 @@
 import Loading from "@/components/loading";
 import { Button } from "@/components/ui/button";
 import { useGetCurrentUserOrders } from "@/lib/react-query/queries";
-import { multiFormatDateString } from "@/lib/utils";
+import { displayImage, multiFormatDateString } from "@/lib/utils";
 import { NavLink, useNavigate } from "react-router-dom";
 
 const OrdersPage = () => {
@@ -29,10 +29,7 @@ const OrdersPage = () => {
                     data-nimg="fill"
                     className="bg-muted-foreground object-cover rounded-md"
                     sizes="100vw"
-                    src={JSON.parse(order.products.images[0]).href.replace(
-                      /width=2000&height=2000/g,
-                      "width=200&height=200"
-                    )}
+                    src={displayImage(order.products.images[0])}
                     alt="product image"
                   />
                 </div>

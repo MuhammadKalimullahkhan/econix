@@ -23,6 +23,7 @@ import {
   useGetPaymentMethods,
   useGetProductById,
 } from "@/lib/react-query/queries";
+import { displayImage } from "@/lib/utils";
 import { RootState } from "@/redux/store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AppwriteException, ID } from "appwrite";
@@ -142,11 +143,7 @@ const PlaceOrderPage = () => {
         ) : (
           productData?.images.map((image: string) => (
             <SwiperSlide key={image} className="border rounded-md">
-              <img
-                src={JSON.parse(image).href}
-                alt=""
-                className="object-fill"
-              />
+              <img src={displayImage(image)} alt="" className="object-fill" />
               {/* <div className="rounded-xl h-[200px] bg-accent flex justify-center">
               </div> */}
             </SwiperSlide>

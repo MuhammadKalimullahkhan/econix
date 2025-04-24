@@ -56,3 +56,7 @@ export const multiFormatDateString = (timestamp: string = ""): string => {
 export const checkIsLiked = (likeList: string[], userId: string) => {
   return likeList.includes(userId);
 };
+
+export function displayImage(imageObj: string) {
+  return import.meta.env.VITE_ADMIN_APP_URL + JSON.parse(imageObj).href;
+}

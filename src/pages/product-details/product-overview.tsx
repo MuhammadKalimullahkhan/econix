@@ -19,6 +19,7 @@ import Loading from "@/components/loading";
 import { toast } from "@/hooks/use-toast";
 import { Link } from "react-router-dom";
 import WhatsApp from "@/components/icons/whatsapp";
+import { displayImage } from "@/lib/utils";
 
 const ProductOverview = ({
   productDetails,
@@ -84,11 +85,7 @@ const ProductOverview = ({
         {productDetails &&
           productDetails.images.map((image: string) => (
             <SwiperSlide key={image}>
-              <img
-                src={JSON.parse(image).href}
-                alt=""
-                className="object-fill"
-              />
+              <img src={displayImage(image)} alt="" className="object-fill" />
               {/* <div className="rounded-xl h-[200px] bg-accent flex justify-center">
               </div> */}
             </SwiperSlide>

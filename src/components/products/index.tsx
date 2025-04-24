@@ -2,6 +2,7 @@ import { InfiniteData } from "@tanstack/react-query";
 import { Models } from "appwrite";
 import CardsSkeleton from "../shared/skeleton/cards";
 import ProductCard from "./product-card";
+import { displayImage } from "@/lib/utils";
 
 const Products = ({
   productList,
@@ -24,10 +25,7 @@ const Products = ({
             page?.documents.map((product) => (
               <ProductCard
                 key={product.$id}
-                imagePath={String(JSON.parse(product.images[0]).href).replace(
-                  /width=2000&height=2000/g,
-                  "width=300&height=300"
-                )}
+                imagePath={displayImage(product.images[0])}
                 name={product.name}
                 slug={product.$id}
                 price={product.price.toFixed(2)}

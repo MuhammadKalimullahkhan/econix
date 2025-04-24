@@ -1,6 +1,7 @@
 import Loading from "@/components/loading";
 import ProductCard from "@/components/products/product-card";
 import { useSearchProduct } from "@/lib/react-query/queries";
+import { displayImage } from "@/lib/utils";
 import { useParams } from "react-router-dom";
 
 const ExplorePage = () => {
@@ -22,10 +23,7 @@ const ExplorePage = () => {
             productList?.documents.map((product) => (
               <ProductCard
                 key={product.$id}
-                imagePath={String(JSON.parse(product.images[0]).href).replace(
-                  /width=2000&height=2000/g,
-                  "width=300&height=300"
-                )}
+                imagePath={displayImage(product.images[0])}
                 name={product.name}
                 slug={product.$id}
                 price={product.price}

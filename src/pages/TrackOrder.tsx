@@ -8,7 +8,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { useGetOrderById } from "@/lib/react-query/queries";
-import { formatDateString } from "@/lib/utils";
+import { displayImage, formatDateString } from "@/lib/utils";
 import { PropsWithChildren } from "react";
 import { Check } from "react-feather";
 import { useParams } from "react-router-dom";
@@ -146,12 +146,7 @@ const TrackOrder = () => {
                         <img
                           alt=""
                           className="w-16 rounded-md"
-                          src={JSON.parse(
-                            currentOrder?.products.images[0]
-                          ).href.replace(
-                            /width=2000&height=2000/g,
-                            "width=64&height=64"
-                          )}
+                          src={displayImage(currentOrder?.products.images[0])}
                         />
                         <div>
                           <div className="font-medium">
